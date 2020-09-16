@@ -1,10 +1,7 @@
 yahoo_fin==0.8.6
 pymongo==3.11.0
 pandas==1.1.1
-<<<<<<< HEAD
 Flask==1.1.2
-=======
->>>>>>> 45ee53fa00802981f1dd62da1b66249de8960899
 requests==2.24.0
 lxml==4.5.2
 schedule==0.6.0
