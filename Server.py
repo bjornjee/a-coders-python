@@ -13,10 +13,15 @@ def scrape(ticker_list):
     while True:
         schedule.run_pending()
 
+def initial_scrape(ticker_list):
+    s = Scrapper.Scrapper()
+    s.scrape(ticker_list)
+
 if __name__ == '__main__':
     csv_file = sys.argv[1]
     ticker_list = pd.read_csv(csv_file)['Ticker'].to_numpy()
     print(ticker_list)
+    initial_scrape(ticker_list)
     x = threading.Thread(target=scrape, args=[ticker_list])
     x.start()
     app.run(host='0.0.0.0')
