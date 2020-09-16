@@ -3,14 +3,11 @@ import pandas as pd
 from pymongo import MongoClient
 from datetime import datetime
 import os
-import schedule
-import sys
-import time
 
 class Scrapper:
     def __init__(self):
         #setup mongo
-        DB_HOST = "locahost" if (os.getenv("DB_HOST") is None) else os.getenv("DB_HOST")
+        DB_HOST = "localhost" if (os.getenv("DB_HOST") is None) else os.getenv("DB_HOST")
         DB_NAME = "acoders" if (os.getenv("DB_NAME") is None) else os.getenv("DB_NAME")
         client = MongoClient(DB_HOST,27017)
         db = client[DB_NAME]
@@ -41,15 +38,3 @@ class Scrapper:
         records = json.loads(df.T.to_json()).values()
         if (records):
             self.market_data.insert_many(records)
-
-
-
-if __name__ == "__main__":
-    s = Scrapper()
-    csv_file = sys.argv[1]
-    #read ticker csv
-    ticker_list = pd.read_csv(csv_file)['Ticker'].to_numpy()
-    schedule.every(1).hour.do(s.scrape,ticker_list)
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
