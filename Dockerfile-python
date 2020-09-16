@@ -1,6 +1,6 @@
-FROM python:3.8.5-alpine
+FROM python:3.8.5
 COPY requirements.txt requirements.txt
 COPY Scrapper.py Scrapper.py
 COPY ticker.csv ticker.csv
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt --trusted-host pypi.python.org
 ENTRYPOINT ["python","Sracpper.py", "./ticker.csv"]
