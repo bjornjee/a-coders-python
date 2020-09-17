@@ -34,6 +34,11 @@ class Scrapper:
             q['_id'] = count
             q['instrument'] = curr_instrument
             q['datetime'] = now
+            #Round Values
+            q['Quote Price'] = round(q['Quote Price'],2)
+            q['Open'] = round(q['Open'],2)
+            q['Previous Close'] = round(q['Previous Close'], 2)
+            q['PE Ratio (TTM)'] = round(q['PE Ratio (TTM)'], 2)
             df = df.append(q,ignore_index=True)
         #rename
         df = df.rename(columns={'Quote Price':'quotePrice','Volume':'volume','Open':'open','Previous Close':'previousClose','PE Ratio (TTM)':'peRatio'})
