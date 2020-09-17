@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 def scrape(ticker_list):
     s = Scrapper.Scrapper()
-    schedule.every(1).minute.do(s.scrape,ticker_list)
+    schedule.every(1).hour.do(s.scrape,ticker_list)
     while True:
         schedule.run_pending()
 
