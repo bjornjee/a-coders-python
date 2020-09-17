@@ -13,21 +13,26 @@ class Scrapper:
         db = client[DB_NAME]
         self.market_data = db.market_data
 
-    def scrape(self,tickers):
+    def scrape(self,tickers_df):
         #count = self.market_data.count()
+        tickers = tickers_df['Ticker'].to_numpy()
+        instruments = tickers_df['Instrument'].to_numpy()
         count = 0
         now = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
         print(now)
-        col = ['_id','datetime','ticker','Quote Price','Volume','Open','Previous Close','PE Ratio (TTM)']
+        col = ['_id','datetime','ticker','instrument','Quote Price','Volume','Open','Previous Close','PE Ratio (TTM)']
         df = pd.DataFrame(columns=col)
         info = ['PE Ratio (TTM)','Open','Previous Close','Quote Price','Volume']
-        for ticker in tickers:
+        for i  in range(len(tickers)):
             count += 1
-            print(ticker)
-            print(get_quote_table(ticker))
-            q = {k:v for k,v in get_quote_table(ticker).items() if k in info}
-            q['ticker'] = ticker
+            curr_ticker = tickers[i]
+            curr_instrument = instruments[i]
+            print("{},{}".format(curr_ticker,curr_instrument))
+            print(get_quote_table(curr_ticker))
+            q = {k:v for k,v in get_quote_table(curr_ticker).items() if k in info}
+            q['ticker'] = curr_ticker
             q['_id'] = count
+            q['instrument'] = curr_instrument
             q['datetime'] = now
             df = df.append(q,ignore_index=True)
         #rename
