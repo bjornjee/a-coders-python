@@ -35,14 +35,14 @@ class Scrapper:
             q['instrument'] = curr_instrument
             q['datetime'] = now
             #Round Values
-            q['Quote Price'] = round(q['Quote Price'],2)
-            q['Open'] = round(q['Open'],2)
-            q['Previous Close'] = round(q['Previous Close'], 2)
-            q['PE Ratio (TTM)'] = round(q['PE Ratio (TTM)'], 2)
             df = df.append(q,ignore_index=True)
         #rename
         df = df.rename(columns={'Quote Price':'quotePrice','Volume':'volume','Open':'open','Previous Close':'previousClose','PE Ratio (TTM)':'peRatio'})
         df=df.fillna(0)
+        df['quotePrice'] = round(df['quotePrice'], 2)
+        df['open'] = round(df['open'], 2)
+        df['previousClose'] = round(df['previousClose'], 2)
+        df['peRatio'] = round(df['peRatio'], 2)
         print(df)
         self.market_data.delete_many({})
         records = json.loads(df.T.to_json()).values()
